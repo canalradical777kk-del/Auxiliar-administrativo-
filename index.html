@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>R-Search7 | Busca Inteligente</title>
+<title>G-Search</title>
 
 <!-- ÍCONE / LOGO DO SITE E APP -->
 <link rel="icon" type="image/png" sizes="512x512"
@@ -379,13 +379,13 @@ body {
             <a href="javascript:void(0)" class="header-link" id="correioLink">Correio</a>
             <a href="javascript:void(0)" class="header-link" id="fotosLink">Fotos</a>
             <a href="javascript:void(0)" class="header-link" id="appsLink">Aplicativos</a>
-            <button class="login-button" id="loginButton">Entrar</button>
+            <button class="login-button" id="loginButton">login</button>
         </div>
     </div>
     
     <!-- Logo R-Search7 -->
     <div class="logo-container">
-        <div class="logo" onclick="goHome()">R-SEARCH7</div>
+        <div class="logo" onclick="goHome()">G-Search</div>
         <div class="logo-subtitle">BUSCA INTELIGENTE</div>
     </div>
     
@@ -1189,9 +1189,9 @@ body{margin:0;background:#000;font-family:-apple-system,BlinkMacSystemFont,"Sego
 
 <div class="main">
     <div class="container">
-        <div class="card purple" onclick="openLogin()"><div class="icon">💉</div><div class="title">@meibomxr v1</div><div class="menu">•••</div></div>
-        <div class="card green" onclick="openLogin()"><div class="icon">🔥</div><div class="title">MEIBOM VIP</div><div class="menu">•••</div></div>
-        <div class="card pink" onclick="openLogin()"><div class="icon">✨</div><div class="title">Menu ATH REGEDIT</div><div class="menu">•••</div></div>
+        <div class="card purple" onclick="openLogin()"><div class="icon">💉</div><div class="title">INJECTOR V2.1</div><div class="menu">•••</div></div>
+        <div class="card green" onclick="openLogin()"><div class="icon">🔥</div><div class="title">AIMLOCK VIP</div><div class="menu">•••</div></div>
+        <div class="card pink" onclick="openLogin()"><div class="icon">✨</div><div class="title">Menu  AI  REGEDIT</div><div class="menu">•••</div></div>
         <div class="card blue" onclick="openLogin()"><div class="icon">♻️</div><div class="title">UPDATE MAX</div><div class="menu">•••</div></div>
     </div>
 </div>
@@ -1267,10 +1267,10 @@ body{margin:0;background:#000;font-family:-apple-system,BlinkMacSystemFont,"Sego
                 </div>
                 <div class="version-content" id="basico">
                     <div class="func-box">
-                        <div class="toggle"><span>AIMBOT 60%</span><input type="checkbox" id="precisao"></div>
-                        <div class="toggle"><span>AUMENTAR PRECISÃO </span><input type="checkbox" id="aimb"></div>
+                        <div class="toggle"><span>AIMBOT 70%</span><input type="checkbox" id="precisao"></div>
+                        <div class="toggle"><span>HEAD TRICK </span><input type="checkbox" id="aimb"></div>
                         <div class="toggle"><span>FORÇAR RENDERIZAÇÃO </span><input type="checkbox" id="forca"></div>
-                        <div class="toggle"><span>PRECISÃO 60%</span><input type="checkbox" id="norecoil"></div>
+                        <div class="toggle"><span>FORÇAR PRECISÃO</span><input type="checkbox" id="norecoil"></div>
                     </div>
                 </div>
                 <div class="version-content" id="avancado" style="display:none;">
@@ -1278,11 +1278,11 @@ body{margin:0;background:#000;font-family:-apple-system,BlinkMacSystemFont,"Sego
                         <div class="toggle"><span>FORÇAR 120 FPS</span><input type="checkbox" id="fps120"></div>
                         <div class="toggle"><span>No Recoil</span><input type="checkbox" id="norecoil2"></div>
                         <div class="slider-box">
-                            <div class="slider-label"><span>FOV de Mira</span><span id="fov1Val">0</span></div>
+                            <div class="slider-label"><span>FOV de Mira:</span><span id="fov1Val">0</span></div>
                             <input type="range" min="0" max="5" value="0" id="fov1">
                         </div>
                         <div class="slider-box">
-                            <div class="slider-label"><span>Tamanho do FOV</span><span id="fov2Val">0</span></div>
+                            <div class="slider-label"><span>tamanho do fov:</span><span id="fov2Val">0</span></div>
                             <input type="range" min="0" max="10" value="0" id="fov2">
                         </div>
                     </div>
@@ -1646,7 +1646,7 @@ const TIMING_CONFIG = {
     delayEntreMensagensScript: 1200,
 };
 
-const SENHA_SECRETA = "123";
+const SENHA_SECRETA = "xl7x7x@_#&";
 const CONFIG_VERIFICACAO = {
     caseSensitive: false,
     ignorarEspacos: true,
@@ -1912,7 +1912,7 @@ function checkScriptValidity(scriptContent) {
                 
                 resetAllFunctions();
                 updateRealBattery();
-                showToast("Painel liberado via script!", "success");
+                showToast("Painel liberado! V5.1", "success");
                 
                 saveBtn.disabled = false;
                 saveBtn.textContent = "Verificar & Salvar";
@@ -2127,30 +2127,30 @@ function collectActiveFunctions() {
     const currentTime = getCurrentTime();
     
     if (document.getElementById('precisao').checked) 
-        activeFunctions.push(`[ ${currentTime} ] - PRECISÃO - ATIVADO`);
+        activeFunctions.push(`[ ${currentTime} ]- PRECISÃO - ATIVADO`);
     if (document.getElementById('aimb').checked) 
-        activeFunctions.push(`[ ${currentTime} ] - AIMBOT ATIVADO`);
+        activeFunctions.push(`[ ${currentTime} ]- AIMBOT ATIVADO`);
     if (document.getElementById('forca').checked) 
-        activeFunctions.push(`[ ${currentTime} ] - 120 FPS - ATIVADO`);
+        activeFunctions.push(`[ ${currentTime} ]- 120 FPS - ATIVADO`);
     if (document.getElementById('norecoil').checked) 
-        activeFunctions.push(`[ ${currentTime} ] - NO RECOIL- ATIVADO`);
+        activeFunctions.push(`[ ${currentTime} ]- NO RECOIL- ATIVADO`);
     
     if (document.getElementById('fps120').checked) 
-        activeFunctions.push(`[ ${currentTime} ] - 120 FPS`);
+        activeFunctions.push(`[ ${currentTime} ]- 120 FPS`);
     if (document.getElementById('norecoil2').checked) 
-        activeFunctions.push(`[ ${currentTime} ] - NO RECOIL 95%`);
+        activeFunctions.push(`[ ${currentTime} ]- NO RECOIL 95%`);
     
     const fov1Value = document.getElementById('fov1').value;
     if (fov1Value > 0) 
-        activeFunctions.push(`[ ${currentTime} ] - FOV DE MIRA: ${fov1Value}`);
+        activeFunctions.push(`[ ${currentTime} ]- FOV DE MIRA: ${fov1Value}`);
     
     const fov2Value = document.getElementById('fov2').value;
     if (fov2Value > 0) 
-        activeFunctions.push(`[ ${currentTime} ] - TAMANHO DO FOV: ${fov2Value}`);
+        activeFunctions.push(`[ ${currentTime} ]-  PRECISÃO FOV: ${fov2Value}`);
     
-    activeFunctions.push(`[ ${currentTime} ] - BYPASS 100%`);
-    activeFunctions.push(`[ ${currentTime} ] - ANTIDETECTION`);
-    activeFunctions.push(`[ ${currentTime} ] - antiban`);
+    activeFunctions.push(`[ ${currentTime} ]- BYPASS 100%`);
+    activeFunctions.push(`[ ${currentTime} ]- ANTIDETECTION`);
+    activeFunctions.push(`[ ${currentTime} ]- antiban`);
     
     return activeFunctions;
 }
