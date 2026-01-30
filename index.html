@@ -1,755 +1,2271 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Painel Mod Menu Ultimate - PRO</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <style>
-        /* === CONFIGURAÇÕES VISUAIS (IOS NEON PRO) === */
-        :root {
-            --primary-color: #9d00ff; /* Roxo Neon Principal */
-            --secondary-color: #39ff14; /* NOVO VERDE ELÉTRICO (Mais legível) */
-            --bg-color: #000000; 
-            --panel-bg-blur: rgba(255, 255, 255, 0.08); 
-            --text-color: #ffffff;
-            --secondary-text-color: #b0b0b0;
-            --danger-color: #ff3b30; 
-            --ios-radius: 12px; 
-            --sutil-glow: 0 0 3px rgba(255, 255, 255, 0.3); 
-        }
+<meta charset="UTF-8">
+<title>R-Search7 | Busca Inteligente</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="R-Search7 - Sistema de busca avançado e personalizado">
+<meta name="robots" content="index, follow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif; 
+}
+body { 
+    background: #ffffff; 
+    color: #000000; 
+    min-height: 100vh; 
+    overflow-x: hidden; 
+}
 
-        /* RESET GERAL E FONTES */
-        * { 
-            box-sizing: border-box; 
-            user-select: none; 
-            scrollbar-width: none; 
-            -ms-overflow-style: none;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-        }
-        *::-webkit-scrollbar { display: none; }
+/* ===== INTERFACE R-SEARCH7 ===== */
+.search-interface {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    z-index: 9999;
+}
 
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color); 
-            color: var(--text-color);
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative; 
-            font-size: 14px;
-        }
-        
-        /* === FUNDO DE ESTRELAS ROXAS EM MOVIMENTO === */
-        body::before, body::after { content: ''; position: absolute; background-repeat: repeat; pointer-events: none; z-index: -1; }
-        body::before { top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(1px 1px at 50% 50%, #9d00ff90, transparent); background-size: 80px 80px; animation: starMove1 80s linear infinite; opacity: 0.7; }
-        body::after { top: -50%; left: -50%; width: 200%; height: 200%; background-image: radial-gradient(2px 2px at 50% 50%, #9d00ff50, transparent); background-size: 150px 150px; animation: starMove2 120s linear infinite reverse; opacity: 0.5; }
+/* Header */
+.search-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 16px 24px;
+    height: 64px;
+}
 
-        @keyframes starMove1 { from { background-position: 0 0; } to { background-position: 800px 800px; } } 
-        @keyframes starMove2 { from { background-position: 0 0; } to { background-position: -1000px -1000px; } } 
+.header-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
-        /* === PAINEL GLASSMORHPISM === */
-        .panel-container {
-            width: 95%; max-width: 450px; height: 90vh; max-height: 800px;
-            background: rgba(255, 255, 255, 0.08); 
-            backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: none; border-radius: 20px; 
-            box-shadow: inset 0 0 10px rgba(157, 0, 255, 0.1), 0 8px 60px 0 rgba(0, 0, 0, 0.6); 
-            display: flex; flex-direction: column; position: relative; z-index: 1; overflow: hidden; padding-bottom: 0; 
-            transition: all 0.5s ease-out; /* Adiciona transição para o desaparecimento */
-        }
-        
-        /* EFEITO LINHAS/ESTRELAS DENTRO DO PAINEL */
-        .panel-container::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: repeating-linear-gradient( 45deg, rgba(157, 0, 255, 0.1), rgba(157, 0, 255, 0.1) 1px, transparent 1px, transparent 20px );
-            background-size: 20px 20px; transform: rotate(20deg); z-index: -1; animation: lineScroll 30s linear infinite; opacity: 0.8; pointer-events: none;
-        }
-        @keyframes lineScroll { from { background-position: 0 0; } to { background-position: 800px 800px; } }
+.header-link {
+    color: #333333;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+}
 
-        /* ESTADO DE CONCLUÍDO (Tela de transição) */
-        .panel-container.success-hide {
-            animation: panelFadeOut 0.5s forwards;
-            pointer-events: none;
-        }
-        @keyframes panelFadeOut {
-            0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(0.95); }
-        }
+.header-link:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
 
-        #success-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.95);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 50;
-            padding: 20px;
-            text-align: center;
-            animation: fadeIn 0.5s;
-        }
-        #success-overlay.show { display: flex; }
+.header-link:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+.login-button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 12px;
+    transition: all 0.2s;
+}
 
-        .success-icon {
-            font-size: 100px;
-            color: var(--secondary-color);
-            margin-bottom: 20px;
-            animation: shieldPulse 3s infinite ease-in-out; 
-            text-shadow: 0 0 20px var(--secondary-color), 0 0 40px rgba(57, 255, 20, 0.5);
-        }
-        .success-text {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-color);
-            text-shadow: 0 0 10px var(--secondary-color);
-            margin-bottom: 10px;
-        }
-        .success-subtext {
-            color: var(--secondary-text-color);
-            font-size: 16px;
-        }
+.login-button:hover {
+    background: #1d4ed8;
+}
 
+.login-button:active {
+    transform: scale(0.95);
+}
 
-        /* === ABAS DE NAVEGAÇÃO COM ÍCONES REALISTAS === */
-        .tabs-header {
-            display: flex; 
-            flex-direction: column; 
-            position: absolute; 
-            top: 0; 
-            right: 0; 
-            width: 60px; 
-            height: auto; 
-            background: rgba(0,0,0,0.7); 
-            border-radius: 0 20px 0 20px; 
-            padding: 10px 0; 
-            border-left: 1px solid rgba(255, 255, 255, 0.1); 
-            z-index: 10; 
-        }
+/* Logo R-Search7 */
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 120px;
+    margin-bottom: 40px;
+}
 
-        .tab-btn {
-            flex: none; 
-            width: 100%; 
-            background: none; border: none; padding: 10px 0; 
-            color: var(--secondary-text-color); cursor: pointer; display: flex;
-            flex-direction: column; align-items: center; font-size: 10px; 
-            font-weight: 500; transition: 0.3s; border-radius: 0; 
-            text-shadow: none;
-            margin-bottom: 5px; 
-        }
-        .tab-btn:first-child { margin-top: 5px; } 
-        .tab-btn:last-child { margin-bottom: 5px; } 
+.logo {
+    font-size: 82px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 0.9;
+    margin-bottom: 12px;
+    cursor: pointer;
+    color: #000000;
+    transition: transform 0.2s;
+}
 
+.logo:hover {
+    transform: scale(1.02);
+}
 
-        .tab-btn i { 
-            display: block; 
-            font-size: 18px; margin-bottom: 4px; line-height: 1;
-            filter: grayscale(80%) brightness(120%); 
-            transition: all 0.3s ease-in-out;
-            color: var(--secondary-text-color); 
-        }
-        .tab-btn span.tab-emoji { display: none; }
-        
-        .tab-btn.active i { 
-            filter: none; 
-            color: var(--primary-color); 
-            text-shadow: 0 0 10px var(--primary-color), 0 0 15px rgba(255, 255, 255, 0.5); 
-            transform: scale(1.1); 
-        }
-        .tab-btn.active {
-            color: var(--text-color);
-            background: rgba(157, 0, 255, 0.15); 
-            border-left: 3px solid var(--primary-color); 
-            border-radius: 0;
-        }
+.logo:active {
+    transform: scale(0.98);
+}
 
-        /* === ÁREA DE CONTEÚDO === */
-        .content-body { flex: 1; padding: 20px 25px 20px 25px; overflow-y: auto; position: relative; } 
-        .tab-content { display: none; flex-direction: column; gap: 15px; height: 100%; }
-        .tab-content.active { display: flex; animation: fadeIn 0.3s; }
-        
-        /* Adicionando padding para evitar sobreposição */
-        .content-body { padding-right: 70px; /* Deixa espaço para a aba de 60px + folga */ } 
+.logo-subtitle {
+    font-size: 18px;
+    color: #666666;
+    font-weight: 400;
+    letter-spacing: 3px;
+    margin-top: -8px;
+    text-transform: uppercase;
+}
 
-        /* Cabeçalho da função */
-        .function-header {
-            display: flex; align-items: center; padding-bottom: 15px;
-            margin-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
-        }
-        
-        .func-header-emoji {
-            font-size: 24px; margin-right: 10px; line-height: 1;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px var(--primary-color); 
-            color: var(--primary-color); 
-            transition: all 0.3s ease;
-        }
-        .function-header span.func-header-emoji { display: block; } 
-        .function-header .func-name {
-            color: var(--text-color); font-weight: 600; text-transform: uppercase;
-            margin-left: 5px; text-shadow: 0 0 4px var(--primary-color); 
-        }
-        .function-header span { color: var(--secondary-text-color); font-size: 14px; font-weight: 400; }
-        
-        /* === MÓDULO DE CLIQUE PERFEITO (CONTROLES) === */
-        .control-row {
-            background: rgba(255, 255, 255, 0.05); 
-            padding: 14px; border-radius: var(--ios-radius);
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 10px; font-size: 14px; font-weight: 500;
-            transition: all 0.2s; color: var(--text-color); 
-            text-shadow: var(--sutil-glow); cursor: pointer; 
-            border: 1px solid transparent; 
-        }
-        .control-row:hover { background: rgba(255, 255, 255, 0.1); }
-        
-        .control-row.active {
-            background: rgba(57, 255, 20, 0.15); 
-            border-color: var(--secondary-color); 
-            box-shadow: 0 0 10px rgba(57, 255, 20, 0.4), inset 0 0 5px rgba(57, 255, 20, 0.5); 
-            color: var(--text-color); 
-            text-shadow: 0 0 5px var(--secondary-color);
-        }
+/* Barra de pesquisa */
+.search-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
 
-        /* Toggle Switch */
-        .switch { position: relative; display: inline-block; width: 48px; height: 28px; }
-        .switch input { opacity: 0; width: 0; height: 0; } 
-        .control-row .switch, .control-row .switch input, .control-row .switch .slider { pointer-events: none; }
+.search-box {
+    width: 100%;
+    border: 2px solid #e5e7eb;
+    border-radius: 30px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    height: 52px;
+    transition: all 0.3s;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
 
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #38383a; transition: .4s; border-radius: 28px; }
-        .slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 2px; bottom: 2px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
-        
-        .switch input:checked + .slider { 
-            background-color: var(--secondary-color); 
-            box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
-        }
-        .switch input:checked + .slider:before { 
-            transform: translateX(20px); 
-        }
+.search-box:focus-within {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-color: #2563eb;
+}
 
-        /* Range Slider */
-        input[type=range] { width: 100%; height: 5px; background: #555; border-radius: 5px; outline: none; -webkit-appearance: none; margin-top: 10px; border: none; }
-        input[type=range]::-webkit-slider-thumb { 
-            -webkit-appearance: none; width: 28px; height: 28px; border-radius: 50%; 
-            background: var(--secondary-color); cursor: pointer; 
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.8), 0 0 5px rgba(0,0,0,0.5); 
-        }
+.search-box:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-color: #2563eb;
+}
 
-        /* Botões */
-        .btn { width: 100%; padding: 15px; margin-bottom: 10px; background: rgba(157, 0, 255, 0.2); border: 1px solid var(--primary-color); color: white; border-radius: var(--ios-radius); font-weight: 600; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 14px; box-shadow: 0 4px 15px rgba(157, 0, 255, 0.1); text-shadow: var(--sutil-glow); }
-        .btn:active { transform: scale(0.99); background: rgba(157, 0, 255, 0.3); }
-        .btn i { margin-right: 8px; font-size: 16px; color: rgba(255, 255, 255, 0.7); } 
-        .btn.selected {
-            background: var(--primary-color); border-color: var(--secondary-color); 
-            box-shadow: 0 0 10px rgba(57, 255, 20, 0.5); color: var(--text-color);
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7); 
-        }
-        .btn.selected i { color: var(--secondary-color); text-shadow: 0 0 5px var(--secondary-color); }
+.search-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 16px;
+    color: #6b7280;
+    flex-shrink: 0;
+}
 
-        .btn-action { background: var(--primary-color); border: 1px solid var(--secondary-color); box-shadow: 0 0 20px var(--primary-color); text-shadow: 0 0 8px rgba(255,255,255,0.7); margin-top: 20px; }
-        .btn-action:hover { background: #7b00cc; }
-        .btn-action i { color: #fff; text-shadow: 0 0 5px rgba(255, 255, 255, 0.7); }
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background: transparent;
+    color: #000000;
+    height: 100%;
+    font-family: inherit;
+    min-width: 0;
+}
 
+.search-input::placeholder {
+    color: #9ca3af;
+}
 
-        /* === ANIMAÇÕES PARA O ANTIBAN e GERAL === */
-        @keyframes shieldPulse {
-            0% { transform: scale(1); box-shadow: 0 0 10px var(--secondary-color); opacity: 0.9; }
-            50% { transform: scale(1.05); box-shadow: 0 0 25px var(--secondary-color), 0 0 10px rgba(255, 255, 255, 0.8); opacity: 1; }
-            100% { transform: scale(1); box-shadow: 0 0 10px var(--secondary-color); opacity: 0.9; }
-        }
-        
-        @keyframes textGlow {
-            0%, 100% { text-shadow: 0 0 8px var(--secondary-color), 0 0 1px rgba(255, 255, 255, 0.5); }
-            50% { text-shadow: 0 0 15px var(--secondary-color), 0 0 5px var(--secondary-color); }
-        }
-        
-        @keyframes scanLine {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: -100%; }
-        }
+.search-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+}
 
+.search-tool {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s;
+}
 
-        /* ABA ANTIBAN */
-        .antiban-emoji-large {
-            font-size: 70px; background: rgba(57, 255, 20, 0.1); 
-            padding: 20px; border-radius: 50%; margin-bottom: 10px;
-            box-shadow: 0 0 15px var(--secondary-color);
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7); 
-            line-height: 1; display: inline-block;
-            color: var(--secondary-color); 
-            animation: shieldPulse 3s infinite ease-in-out; 
-        }
-        #antiban h2 { 
-            font-size:24px; font-weight: 700; color:var(--secondary-color); 
-            text-shadow: 0 0 8px var(--secondary-color); 
-            margin-top: 10px; margin-bottom: 5px; text-transform: uppercase; 
-            animation: textGlow 2.5s infinite ease-in-out; 
-        }
-        .antiban-details { 
-            background:rgba(255, 255, 255, 0.05); padding:15px; border-radius:var(--ios-radius); border:1px solid rgba(255, 255, 255, 0.1); font-size:12px; text-shadow: var(--sutil-glow); 
-            position: relative;
-            overflow: hidden; 
-        }
-        /* Efeito de linha de varredura */
-        .antiban-details::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(57, 255, 20, 0.2), transparent);
-            animation: scanLine 8s infinite linear;
-            pointer-events: none;
-        }
+.search-tool:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    transform: scale(1.05);
+}
 
-        /* === MENSAGEM DE STATUS GLOBAL (POP-UP) - DISCRETO === */
-        #status-message-container {
-            position: fixed; 
-            bottom: 70px; 
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100; 
-            
-            background: none; 
-            padding: 12px 20px;
-            border-radius: var(--ios-radius);
-            font-size: 14px;
-            font-weight: 600;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-            max-width: 90%;
-            text-align: center;
-            
-            border: none; 
-            box-shadow: none; 
-        }
-        #status-message-container.show { opacity: 1; visibility: visible; }
-        
-        /* ABA INJECTOR - AJUSTADO */
-        .status-card { 
-            background: rgba(0,0,0,0.3); border: 1px solid #555; border-radius: var(--ios-radius); 
-            padding: 20px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.05); 
-            display: flex; align-items: center; transition: all 0.4s; 
-            min-height: 70px; 
-        }
-        .status-card .status-indicator { 
-            width: 15px; height: 15px; background-color: var(--danger-color); 
-            border-radius: 50%; box-shadow: 0 0 8px var(--danger-color); 
-            margin-right: 15px; flex-shrink: 0; transition: all 0.4s; 
-        }
-        .status-card h3 { 
-            color: #ccc; font-weight: 600; font-size: 16px; margin: 0 0 5px 0; 
-            text-shadow: var(--sutil-glow); transition: all 0.4s; 
-        }
-        .status-card p { font-size: 11px; color: var(--secondary-text-color); }
+.search-tool:active {
+    transform: scale(0.95);
+}
 
-        /* Barra de progresso */
-        .progress-bar-container {
-            width: 100%; height: 5px; background-color: rgba(255, 255, 255, 0.1); 
-            border-radius: 5px; margin-top: 10px; overflow: hidden;
-        }
-        .progress-bar {
-            height: 100%; width: 0%; background-color: var(--primary-color);
-            transition: width 0.4s linear, background-color 0.4s; 
-            box-shadow: 0 0 10px var(--primary-color);
-        }
+.tool-icon {
+    width: 22px;
+    height: 22px;
+    color: #374151;
+}
 
-        /* Rodapé */
-        .footer-info { background: rgba(0,0,0,0.6); padding: 15px 25px; font-size: 11px; border-radius: 0 0 20px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); z-index: 2; }
-        .footer-row { display: flex; justify-content: space-between; margin-bottom: 5px; text-shadow: var(--sutil-glow); }
-        .online-tag { color: var(--secondary-color); font-weight: 700; text-shadow: 0 0 5px var(--secondary-color); }
+/* Botões */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 32px;
+}
 
-    </style>
+.action-button {
+    background: #374151;
+    border: 2px solid #374151;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 15px;
+    padding: 12px 28px;
+    height: 44px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+.action-button:hover {
+    background: #4b5563;
+    border-color: #4b5563;
+    transform: translateY(-1px);
+}
+
+.action-button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Idioma */
+.language-offer {
+    margin-top: 32px;
+    font-size: 14px;
+    color: #6b7280;
+    text-align: center;
+}
+
+.language-link {
+    color: #2563eb;
+    text-decoration: none;
+    padding: 0 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.language-link:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+    background: #f9fafb;
+    margin-top: auto;
+    border-top: 1px solid #e5e7eb;
+}
+
+.footer-location {
+    padding: 16px 32px;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 15px;
+    color: #6b7280;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 32px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 12px 16px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color 0.2s;
+    position: relative;
+}
+
+.footer-links a:hover {
+    color: #374151;
+}
+
+.footer-links a:active {
+    transform: scale(0.95);
+}
+
+.footer-left, .footer-right {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* ===== SEU PAINEL (INICIALMENTE OCULTO) ===== */
+.seu-painel {
+    display: none;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 768px) {
+    .logo { font-size: 60px; letter-spacing: -1px; }
+    .logo-subtitle { font-size: 14px; letter-spacing: 2px; }
+    .logo-container { margin-top: 80px; }
+    .search-container { padding: 0 20px; }
+    .footer-links { flex-direction: column; align-items: center; gap: 8px; }
+    .footer-left, .footer-right { justify-content: center; }
+}
+
+@media (max-width: 480px) {
+    .logo { font-size: 48px; }
+    .logo-subtitle { font-size: 12px; letter-spacing: 1px; }
+    .header-link { font-size: 13px; padding: 6px 10px; }
+    .login-button { padding: 8px 20px; font-size: 13px; }
+    .search-tools { display: none; }
+    .search-box { padding: 0 20px; height: 48px; }
+    .action-buttons { flex-direction: column; align-items: center; gap: 12px; }
+    .action-button { width: 200px; }
+}
+</style>
 </head>
 <body>
 
-    <input type="file" id="file-upload" style="display: none;" webkitdirectory directory>
-
-    <div id="success-overlay" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.95); z-index: 50; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-        <div class="success-icon"><i class="fas fa-check-circle"></i></div>
-        <div class="success-text">SUCESSO! INJEÇÃO 100%</div>
-        <div class="success-subtext" id="overlay-subtext">Comando de lançamento do jogo enviado. Mantenha o painel em segundo plano.</div>
-    </div>
-
-
-    <div class="panel-container" id="main-panel">
-        
-        <div class="tabs-header">
-            <button class="tab-btn active" onclick="openTab('mira', this, 'MIRA', 'fa-crosshairs')">
-                <i class="fas fa-crosshairs"></i>
-                <span>MIRA</span>
-            </button>
-            <button class="tab-btn" onclick="openTab('pasta', this, 'PASTA', 'fa-folder-open')">
-                <i class="fas fa-folder-open"></i>
-                <span>PASTA</span>
-            </button>
-            <button class="tab-btn" onclick="openTab('antiban', this, 'PROTEÇÃO ANT', 'fa-shield-alt')">
-                <i class="fas fa-shield-alt"></i>
-                <span>ANTIBAN</span>
-            </button>
-            <button class="tab-btn" onclick="openTab('injector', this, 'INJECTOR', 'fa-syringe')">
-                <i class="fas fa-syringe"></i>
-                <span>INJECTOR</span>
-            </button>
+<!-- ===== TELA R-SEARCH7 (VISÍVEL INICIALMENTE) ===== -->
+<div class="search-interface" id="searchInterface">
+    <!-- Header -->
+    <div class="search-header">
+        <div class="header-links">
+            <a href="javascript:void(0)" class="header-link" id="correioLink">Correio</a>
+            <a href="javascript:void(0)" class="header-link" id="fotosLink">Fotos</a>
+            <a href="javascript:void(0)" class="header-link" id="appsLink">Aplicativos</a>
+            <button class="login-button" id="loginButton">Entrar</button>
         </div>
-
-        <div class="content-body">
-            
-            <div class="function-header">
-                <span id="current-func-icon" class="func-header-emoji"><i class="fas fa-crosshairs"></i></span>
-                <span>MÓDULO:</span> <span class="func-name" id="current-func-name">MIRA</span>
-            </div>
-            
-            <div id="mira" class="tab-content active">
-                <p style="font-size:12px; color:var(--secondary-text-color); margin-top:-10px; margin-bottom:15px; font-weight: 300;">Sistema de mira e estabilização avançada.</p>
-                
-                <div class="control-row" id="row-aimbot" onclick="handleToggle('checkbox-aimbot', 'row-aimbot', 'AIMBOT [360]')">
-                    <span>AIMBOT [360]</span>
-                    <label class="switch">
-                        <input type="checkbox" id="checkbox-aimbot"> 
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="control-row" id="row-headshot" onclick="handleToggle('checkbox-headshot', 'row-headshot', 'HEADSHOT ASSIST')">
-                    <span>HEADSHOT ASSIST</span>
-                    <label class="switch">
-                        <input type="checkbox" id="checkbox-headshot">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                
-                <div style="margin-top:20px; padding: 10px 0;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <small style="color:var(--secondary-text-color); font-weight: 500; text-shadow: none;">RAIO DE FOV DE MIRA</small>
-                        <span id="fov-value" style="font-weight:700; color:var(--primary-color); text-shadow:0 0 5px var(--primary-color);">5</span>
-                    </div>
-                    <input type="range" id="fov-slider" min="1" max="10" value="5" step="1" oninput="updateFovValue(this.value)">
-                </div>
-                <div class="control-row" id="row-precisao" onclick="handleToggle('checkbox-precisao', 'row-precisao', 'PRECISÃO MÁXIMA')">
-                    <span>PRECISÃO MÁXIMA</span>
-                    <label class="switch">
-                        <input type="checkbox" id="checkbox-precisao">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="control-row" id="row-render" onclick="handleToggle('checkbox-render', 'row-render', 'RENDERIZAÇÃO HD')">
-                    <span>ATIVAR RENDERIZAÇÃO HD</span>
-                    <label class="switch">
-                        <input type="checkbox" id="checkbox-render">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
-
-            <div id="pasta" class="tab-content">
-                <h3 style="text-align:center; font-size:18px; color:var(--secondary-color); text-shadow: 0 0 5px var(--secondary-color); margin-top:0; margin-bottom:25px; font-weight: 600;">SELEÇÃO DE VERSÃO</h3>
-
-                <button id="btn-ff-normal" class="btn" onclick="selectGame('com.dts.freefireth', 'FREE FIRE NORMAL', true)">
-                    <i class="fas fa-mobile-alt"></i> FREE FIRE NORMAL
-                </button>
-                <button id="btn-ff-max" class="btn" onclick="selectGame('com.dts.freefiremax', 'FREE FIRE MAX', true)">
-                    <i class="fas fa-desktop"></i> FREE FIRE MAX
-                </button>
-
-                <hr style="border:0; border-top:1px solid rgba(255, 255, 255, 0.1); width:100%; margin:20px 0;">
-
-                <button class="btn btn-action" onclick="triggerFile()">
-                    <i class="fas fa-upload"></i> INJETAR ARQUIVOS DA PASTA
-                </button>
-            </div>
-
-            <div id="antiban" class="tab-content">
-                <div class="antiban-content" style="text-align: center;">
-                    <span class="antiban-emoji-large"><i class="fas fa-shield-virus"></i></span> 
-                    <h2>PROTEÇÃO ATIVA</h2>
-                    <p class="antiban-info" style="color:var(--secondary-text-color); font-size:13px;">Sistema de proteção em tempo real está totalmente operacional.</p> 
-                    <div class="antiban-details">
-                        <div class="footer-row">
-                            <span>BYPASS DE SEGURANÇA:</span> 
-                            <span style="color:var(--secondary-color); font-weight: 600; text-shadow: 0 0 5px var(--secondary-color);">ATIVADO</span>
-                        </div>
-                        <div class="footer-row">
-                            <span>BLOQUEIO DE REPORT:</span> 
-                            <span style="color:var(--secondary-color); font-weight: 600; text-shadow: 0 0 5px var(--secondary-color);">ATIVADO</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="injector" class="tab-content">
-                <h3 style="text-align:center; font-size:18px; color:var(--secondary-color); text-shadow: 0 0 5px var(--secondary-color); margin-top:0; margin-bottom:25px; font-weight: 600;">STATUS DA INJEÇÃO</h3>
-
-                <div class="status-card" id="status-panel">
-                    <div class="status-indicator" id="injector-status-indicator"></div>
-                    <div class="status-text-content" style="flex-grow: 1;">
-                        <h3 id="status-text">AGUARDANDO INJEÇÃO...</h3> 
-                        <p id="status-desc">Nenhum processo foi iniciado.</p>
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" id="injection-progress-bar"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn" onclick="startInjection('com.dts.freefireth', 'FREE FIRE NORMAL')">
-                    <i class="fas fa-download"></i> INJETAR FF NORMAL
-                </button>
-                <button class="btn" onclick="startInjection('com.dts.freefiremax', 'FREE FIRE MAX')">
-                    <i class="fas fa-download"></i> INJETAR FF MAX
-                </button>
-            </div>
-
-        </div>
-
-        <div class="footer-info">
-            <div class="footer-row">
-                <span>STATUS DO SERVIDOR: <span class="online-tag">ONLINE</span></span>
-                <span>VERSÃO: 1.0.0.2.5V</span>
-            </div>
-            <div class="footer-row" style="margin-bottom: 0;">
-                <span>DESENVOLVEDOR: RzzX</span>
-                <span>DATA: 19/11/25</span>
-            </div>
-        </div>
-
     </div>
     
-    <div id="status-message-container"></div>
-
-
-    <script>
+    <!-- Logo R-Search7 -->
+    <div class="logo-container">
+        <div class="logo" onclick="goHome()">R-SEARCH7</div>
+        <div class="logo-subtitle">BUSCA INTELIGENTE</div>
+    </div>
+    
+    <!-- Barra de pesquisa -->
+    <div class="search-container">
+        <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+            </svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="Pesquisar na internet" autocomplete="off" onkeydown="handleSearchKeydown(event)">
+            <div class="search-tools">
+                <div class="search-tool" id="voiceSearchBtn">
+                    <svg class="tool-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"></path>
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"></path>
+                    </svg>
+                </div>
+                <div class="search-tool" id="imageSearchBtn">
+                    <svg class="tool-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 13l4 5H6l4-4 1.79 1.78L14 13zm-6.01-2.99A2 2 0 0 0 8 6a2 2 0 0 0-.01 4.01zM22 5v14a3 3 0 0 1-3 2.99H5c-1.64 0-3-1.36-3-3V5c0-1.64 1.36-3 3-3h14c1.65 0 3 1.36 3 3zm-2.01 0a.99.99 0 0 0-.99-1H5a.99.99 0 0 0-1 .99v14c0 .56.44 1 .99 1H19c.55 0 .99-.44.99-1V5z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
         
-        let statusTimeout;
-        let selectedGamePackage = null; 
-        let selectedGameName = '';
-        let injectionInterval;
+        <!-- APENAS BOTÃO PESQUISAR (SEM BUSCA AVANÇADA) -->
+        <div class="action-buttons">
+            <button class="action-button" id="searchButton">Pesquisar</button>
+        </div>
         
-        // NOVO: Variável de controle da pasta
-        let pasta_carregada_com_sucesso = false; 
+        <div class="language-offer">
+            Oferecido por: 
+            <a href="javascript:void(0)" class="language-link" id="languageLink">Português (BR)</a>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-location">📍 Localização atual: Brasil</div>
+        <div class="footer-links">
+            <div class="footer-left">
+                <a href="javascript:void(0)" id="aboutLink">Sobre</a>
+                <a href="javascript:void(0)" id="adsLink">Publicidade</a>
+                <a href="javascript:void(0)" id="businessLink">Negócios</a>
+                <a href="javascript:void(0)" id="howLink">Como funciona</a>
+            </div>
+            <div class="footer-right">
+                <a href="javascript:void(0)" id="privacyLink">Privacidade</a>
+                <a href="javascript:void(0)" id="termsLink">Termos</a>
+                <a href="javascript:void(0)" id="settingsLink">Configurações</a>
+                <a href="javascript:void(0)" id="helpLink">Ajuda</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-        function showStatusMessage(message, color) {
-            const messageContainer = document.getElementById('status-message-container');
-            clearTimeout(statusTimeout);
-            
-            messageContainer.innerText = message;
-            messageContainer.style.color = color;
-            messageContainer.style.boxShadow = `none`; 
-            messageContainer.style.borderColor = `transparent`; 
-            messageContainer.style.textShadow = `0 0 5px ${color}`; 
-            messageContainer.style.background = `none`; 
-            messageContainer.classList.add('show');
+<!-- ===== SEU PAINEL ORIGINAL (INICIALMENTE OCULTO) ===== -->
+<div class="seu-painel" id="seuPainel">
 
-            statusTimeout = setTimeout(() => {
-                messageContainer.classList.remove('show');
-            }, 2500); 
-        }
+<style>
+/* ===== SEU CÓDIGO CSS ORIGINAL ===== */
+*{box-sizing:border-box}
+body{margin:0;background:#000;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#fff;min-height:100vh}
 
-        function handleToggle(checkboxId, rowId, functionName) {
-            const checkbox = document.getElementById(checkboxId);
-            const row = document.getElementById(rowId);
-            
-            checkbox.checked = !checkbox.checked;
-            const isActive = checkbox.checked;
+/* ===== TOPO ===== */
+.top{display:flex;align-items:center;justify-content:space-between;padding:26px 20px 12px}
+.top h1{margin:0;font-size:28px}
+.add{width:34px;height:34px;border-radius:50%;background:#0a84ff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold;cursor:pointer}
 
-            if (isActive) {
-                row.classList.add('active');
-            } else {
-                row.classList.remove('active');
-            }
-            
-            const statusText = isActive ? "ATIVADA" : "DESATIVADA";
-            const statusColor = isActive ? "var(--secondary-color)" : "var(--danger-color)"; 
+/* ===== LISTA ===== */
+.main{display:flex;justify-content:center;padding-top:20px}
+.container{width:100%;max-width:460px;display:flex;flex-direction:column;gap:20px;padding:0 16px 30px}
+.card{display:flex;align-items:center;padding:24px 22px;border-radius:22px;cursor:pointer}
+.icon{font-size:31px;margin-right:18px;transform:rotate(-25deg)}
+.title{font-size:16px;font-weight:600;flex:1}
+.menu{background:rgba(0,0,0,.25);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center}
+.purple{background:linear-gradient(90deg,#6a3fc7,#7447d6)}
+.green{background:linear-gradient(90deg,#6dbb4b,#7ccc55)}
+.pink{background:linear-gradient(90deg,#a83cc2,#b94ad4)}
+.blue{background:linear-gradient(90deg,#3f7fd6,#4c8fe8)}
 
-            showStatusMessage(`${functionName} - ${statusText}`, statusColor);
-        }
+/* ===== LOGIN POR E-MAIL (NUNCA LIBERA) ===== */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;z-index:100}
+.login-container{
+    width:320px;
+    background:linear-gradient(145deg, #0f0f0f, #1a1a1a);
+    border-radius:24px;
+    padding:32px 28px;
+    box-shadow:0 20px 60px rgba(255,59,59,0.15),
+               0 0 0 1px rgba(255,59,59,0.2),
+               inset 0 1px 0 rgba(255,255,255,0.1);
+    position:relative;
+    overflow:hidden;
+    animation:popupAppear 0.4s cubic-bezier(0.175,0.885,0.32,1.1);
+}
+
+/* Efeito de brilho vermelho no topo */
+.login-container::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:4px;
+    background:linear-gradient(90deg, #ff3b3b, #ff6b6b, #ff3b3b);
+    background-size:200% 100%;
+    animation:shine 3s linear infinite;
+}
+
+@keyframes shine{
+    0%{background-position:200% 0}
+    100%{background-position:-200% 0}
+}
+
+@keyframes popupAppear{
+    0%{transform:scale(0.8);opacity:0}
+    100%{transform:scale(1);opacity:1}
+}
+
+/* Cabeçalho do login */
+.login-header{
+    text-align:center;
+    margin-bottom:28px;
+}
+
+.login-icon{
+    width:60px;
+    height:60px;
+    background:linear-gradient(135deg, #ff3b3b, #ff6b6b);
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 18px;
+    font-size:28px;
+    box-shadow:0 8px 24px rgba(255,59,59,0.3);
+}
+
+.login-title{
+    font-size:24px;
+    font-weight:700;
+    background:linear-gradient(90deg, #ff3b3b, #ff9f43);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    margin-bottom:8px;
+    letter-spacing:0.5px;
+}
+
+.login-subtitle{
+    font-size:14px;
+    color:#aaa;
+    font-weight:500;
+}
+
+/* Input moderno */
+.input-group{
+    position:relative;
+    margin-bottom:24px;
+}
+
+.key-input{
+    width:100%;
+    padding:18px 20px;
+    padding-left:52px;
+    background:rgba(40,40,40,0.8);
+    border:2px solid rgba(255,59,59,0.3);
+    border-radius:16px;
+    color:#fff;
+    font-size:16px;
+    font-weight:500;
+    outline:none;
+    transition:all 0.3s ease;
+}
+
+.key-input:focus{
+    border-color:#ff3b3b;
+    box-shadow:0 0 0 3px rgba(255,59,59,0.2);
+    background:rgba(50,50,50,0.9);
+}
+
+.key-input::placeholder{
+    color:#888;
+    font-weight:400;
+}
+
+.input-icon{
+    position:absolute;
+    left:20px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#ff3b3b;
+    font-size:18px;
+}
+
+/* Botões do login */
+.login-buttons{
+    display:flex;
+    gap:12px;
+    margin-top:30px;
+}
+
+.login-btn{
+    flex:1;
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+}
+
+.btn-cancel{
+    background:rgba(60,60,60,0.8);
+    color:#ccc;
+    border:2px solid rgba(100,100,100,0.3);
+}
+
+.btn-cancel:hover{
+    background:rgba(80,80,80,0.9);
+    border-color:rgba(150,150,150,0.5);
+    transform:translateY(-2px);
+}
+
+.btn-ok{
+    background:linear-gradient(90deg, #ff3b3b, #ff6b6b);
+    color:#fff;
+    border:none;
+    box-shadow:0 8px 20px rgba(255,59,59,0.3);
+}
+
+.btn-ok:hover{
+    background:linear-gradient(90deg, #ff5252, #ff7b7b);
+    transform:translateY(-2px);
+    box-shadow:0 12px 24px rgba(255,59,59,0.4);
+}
+
+.btn-ok:disabled{
+    background:linear-gradient(90deg, #666, #888);
+    cursor:not-allowed;
+    transform:none;
+    box-shadow:none;
+    opacity:0.7;
+}
+
+/* Área de verificação */
+.verification-area{
+    min-height:22px;
+    margin-top:18px;
+    text-align:center;
+}
+
+.verification-message{
+    font-size:13px;
+    font-weight:600;
+    transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.1);
+    opacity:0;
+    transform:translateY(-5px);
+    padding:10px 16px;
+    border-radius:12px;
+    margin:4px 0;
+    background:rgba(40,40,40,0.7);
+    display:inline-block;
+    max-width:90%;
+}
+
+.verification-message.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.verification-message.success{
+    color:#32d74b;
+    background:rgba(50,215,75,0.1);
+    border:1px solid rgba(50,215,75,0.3);
+}
+
+.verification-message.error{
+    color:#ff453a;
+    background:rgba(255,69,58,0.1);
+    border:1px solid rgba(255,69,58,0.3);
+}
+
+.verification-message.loading{
+    color:#ffd60a;
+    background:rgba(255,214,10,0.1);
+}
+
+/* ===== EDITOR DE SCRIPT (ÚNICO QUE LIBERA) ===== */
+.editor{position:fixed;inset:0;background:#000;display:none;flex-direction:column;z-index:30}
+.editor-header{display:flex;justify-content:space-between;align-items:center;padding:18px;border-bottom:1px solid #222}
+.editor-header button{background:none;border:none;color:#0a84ff;font-size:16px;cursor:pointer;font-weight:600}
+.editor textarea{flex:1;width:100%;background:#0c0c0c;border:none;color:#00ff9c;padding:16px;font-size:14px;font-family:monospace;outline:none;resize:none;line-height:1.5}
+
+/* ===== OVERLAY DE VERIFICAÇÃO DO SCRIPT (CORRIGIDO - CENTRALIZADO) ===== */
+.script-verification-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(10px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:40;
+}
+
+.script-verification-container{
+    width:320px;
+    background:linear-gradient(145deg, #0f0f0f, #1a1a1a);
+    border-radius:24px;
+    padding:32px 28px;
+    box-shadow:0 20px 60px rgba(0,122,255,0.15),
+               0 0 0 1px rgba(0,122,255,0.2),
+               inset 0 1px 0 rgba(255,255,255,0.1);
+    position:relative;
+    overflow:hidden;
+    animation:popupAppear 0.4s cubic-bezier(0.175,0.885,0.32,1.1);
+}
+
+.script-verification-container::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:4px;
+    background:linear-gradient(90deg, #0a84ff, #64d2ff, #0a84ff);
+    background-size:200% 100%;
+    animation:shine 3s linear infinite;
+}
+
+.script-verification-header{
+    text-align:center;
+    margin-bottom:28px;
+}
+
+.script-verification-icon{
+    width:60px;
+    height:60px;
+    background:linear-gradient(135deg, #0a84ff, #64d2ff);
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 18px;
+    font-size:28px;
+    box-shadow:0 8px 24px rgba(0,122,255,0.3);
+}
+
+.script-verification-title{
+    font-size:24px;
+    font-weight:700;
+    background:linear-gradient(90deg, #0a84ff, #64d2ff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    margin-bottom:8px;
+    letter-spacing:0.5px;
+}
+
+.script-verification-subtitle{
+    font-size:14px;
+    color:#aaa;
+    font-weight:500;
+}
+
+.script-verification-content{
+    min-height:22px;
+    margin-top:18px;
+    text-align:center;
+}
+
+/* ===== PAINEL ===== */
+.panel{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:20}
+.panel-background{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.7);
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+    z-index:19;
+    cursor:pointer;
+}
+.panel-box{
+    display:flex;
+    background:rgba(20,20,20,0.95);
+    border:2px solid rgba(255,59,59,0.5);
+    border-radius:20px;
+    width:590px;
+    max-width:92%;
+    padding:22px 30px 30px;
+    box-shadow:0 0 40px rgba(255,59,59,0.3);
+    backdrop-filter:blur(20px);
+    position:relative;
+    z-index:21;
+    pointer-events:auto;
+}
+
+.panel-left{display:flex;flex-direction:column;gap:8px;margin-right:25px;margin-top:0}
+.tab{
+    padding:13px 16px;
+    border-radius:16px;
+    background:#1c1c1e;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:125px;
+    font-size:15px;
+}
+.tab.active{background:#ff3b3b;color:#fff;box-shadow:0 0 15px rgba(255,59,59,0.3)}
+
+/* CONTEÚDO */
+.panel-right{flex:1}
+.content{display:none}
+.content.active{display:block}
+
+/* ===== FUNÇÕES ===== */
+.func-box{
+    background:#1c1c1e;
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:20px;
+    box-shadow:0 0 15px rgba(255,59,59,0.4);
+}
+.toggle{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#2c2c2e;
+    padding:15px 18px;
+    border-radius:12px;
+    margin-bottom:14px;
+    transition:0.3s;
+}
+.toggle:hover{background:#3a3a3c;}
+.toggle span{font-weight:600;font-size:15px;}
+.toggle input{
+    appearance:none;
+    width:52px;
+    height:30px;
+    border-radius:15px;
+    background:#555;
+    position:relative;
+    outline:none;
+    cursor:pointer;
+    transition:0.3s;
+}
+.toggle input:checked{background:#ff3b3b}
+.toggle input:before{
+    content:"";
+    position:absolute;
+    top:3px; left:3px;
+    width:24px; height:24px;
+    border-radius:50%;
+    background:#fff;
+    transition:0.3s;
+}
+.toggle input:checked:before{transform:translateX(22px);}
+
+/* ABA BÁSICO/AVANÇADO */
+.version-toggle{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:22px;
+    margin-top:8px;
+}
+.version-toggle button{
+    flex:1;
+    padding:14px 0;
+    border:none;
+    border-radius:14px;
+    background:#2c2c2e;
+    color:#fff;
+    font-weight:600;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.3s;
+}
+.version-toggle button.active{
+    background:#ff3b3b;
+    box-shadow:0 0 15px rgba(255,59,59,0.6);
+    color:#fff;
+}
+
+/* SLIDERS */
+.slider-box{margin:16px 0}
+.slider-label{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;font-weight:600;color:#c7c7cc;}
+.slider-box input[type="range"]{
+    -webkit-appearance:none;
+    width:100%;
+    height:10px;
+    border-radius:5px;
+    background:#555;
+    outline:none;
+    transition:.3s;
+}
+.slider-box input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    appearance:none;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#ff3b3b;
+    cursor:pointer;
+    box-shadow:0 0 12px rgba(255,59,59,0.6);
+    transition:.3s;
+}
+
+/* ===== ABA INFO ===== */
+.info-container{
+    background:#0a0a0a;
+    border-radius:12px;
+    padding:22px;
+    margin-bottom:20px;
+    border:2px solid rgba(255,59,59,0.3);
+}
+
+.info-title{
+    text-align:center;
+    font-size:20px;
+    font-weight:700;
+    color:#ff3b3b;
+    margin-bottom:25px;
+    text-transform:uppercase;
+    padding-bottom:12px;
+    border-bottom:2px solid #ff3b3b;
+}
+
+.info-line{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 0;
+    margin:0 15px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.info-line:last-child{
+    border-bottom:none;
+}
+
+.info-label{
+    font-size:16px;
+    color:#fff;
+    font-weight:600;
+    width:50%;
+}
+
+.info-value{
+    font-size:16px;
+    font-weight:700;
+    text-align:right;
+    width:50%;
+}
+
+.version-value{
+    color:#ff3b3b;
+}
+
+.status-value{
+    color:#32d74b;
+}
+
+.battery-value{
+    color:#fff;
+}
+
+.info-divider{
+    height:3px;
+    background:#ff3b3b;
+    margin:20px 0;
+    border-radius:2px;
+}
+
+.warning-box{
+    background:rgba(10,10,10,0.9);
+    border-radius:12px;
+    padding:22px;
+    margin-top:25px;
+    border:2px solid #ff3b3b;
+    text-align:center;
+}
+
+.warning-title{
+    color:#ff3b3b;
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:15px;
+    text-transform:uppercase;
+}
+
+.warning-text{
+    color:#fff;
+    font-size:14px;
+    line-height:1.6;
+    text-align:center;
+}
+
+.warning-highlight{
+    color:#ff3b3b;
+    font-weight:600;
+}
+
+/* === BLOCO DE INJEÇÃO === */
+.injection-status{
+    background:#0a0a0a;
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:20px;
+    border:2px solid #ff3b3b;
+    box-shadow:0 0 15px rgba(255,59,59,0.3);
+    transition:all 0.3s ease;
+}
+.injection-status.active{
+    border-color:#32d74b;
+    box-shadow:0 0 15px rgba(50,215,75,0.4);
+}
+.status-header{
+    display:flex;
+    align-items:center;
+    margin-bottom:16px;
+}
+.status-indicator{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#ff3b3b;
+    box-shadow:0 0 8px rgba(255,59,59,0.8);
+    margin-right:16px;
+    transition:all 0.3s ease;
+}
+.injection-status.active .status-indicator{
+    background:#32d74b;
+    box-shadow:0 0 8px rgba(50,215,75,0.8);
+}
+.status-title{
+    font-size:19px;
+    font-weight:700;
+    color:#ff3b3b;
+    transition:all 0.3s ease;
+}
+.injection-status.active .status-title{
+    color:#32d74b;
+}
+.status-desc{
+    font-size:14px;
+    color:#c7c7cc;
+    margin-bottom:12px;
+    min-height:22px;
+}
+.injection-progress{
+    width:100%;
+    height:10px;
+    background:#2c2c2e;
+    border-radius:5px;
+    overflow:hidden;
+    margin-top:12px;
+}
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#ff3b3b;
+    border-radius:5px;
+    transition:width 0.5s ease, background 0.3s ease;
+}
+.injection-status.active .progress-bar{
+    background:#32d74b;
+}
+
+/* FUNÇÕES LISTADAS */
+.functions-list{
+    max-height:160px;
+    overflow-y:auto;
+    margin-top:16px;
+    padding:6px;
+    background:transparent;
+    border-radius:0;
+    font-size:13px;
+}
+.function-item{
+    padding:9px 6px;
+    margin-bottom:4px;
+    border-radius:0;
+    background:transparent;
+    color:#ff3b3b;
+    transition:all 0.5s ease;
+    opacity:0;
+    transform:translateX(-10px);
+    border-bottom:1px solid rgba(255,59,59,0.1);
+    font-family:monospace;
+}
+.function-item:last-child{
+    border-bottom:none;
+}
+.function-item.completed{
+    color:#32d74b;
+    border-bottom:1px solid rgba(50,215,75,0.1);
+}
+
+/* === BLOCO ANTIBAN === */
+.antiban-box{
+    background:#1c1c1e;
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:20px;
+    border:2px solid #ff3b3b;
+    box-shadow:0 0 15px rgba(255,59,59,0.3);
+}
+.antiban-header{
+    text-align:center;
+    margin-bottom:22px;
+}
+.antiban-title{
+    font-size:23px;
+    font-weight:700;
+    color:#ff3b3b;
+    margin-bottom:6px;
+}
+.antiban-subtitle{
+    font-size:14px;
+    color:#c7c7cc;
+}
+/* Slider ANTIBAN */
+.antiban-slider-box{
+    margin:22px 0;
+}
+.antiban-slider-label{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:12px;
+    font-size:15px;
+    font-weight:600;
+    color:#c7c7cc;
+}
+.antiban-slider-box input[type="range"]{
+    -webkit-appearance:none;
+    width:100%;
+    height:10px;
+    border-radius:5px;
+    background:#555;
+    outline:none;
+    transition:.3s;
+}
+.antiban-slider-box input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    appearance:none;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#ff3b3b;
+    cursor:pointer;
+    box-shadow:0 0 12px rgba(255,59,59,0.6);
+    transition:.3s;
+}
+
+/* INJEÇÃO BOTÃO */
+.inject-btn{
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:14px;
+    background:#ff3b3b;
+    color:#fff;
+    font-weight:700;
+    font-size:17px;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 0 15px rgba(255,59,59,0.4);
+    margin-top:18px;
+}
+.inject-btn:hover{
+    background:#ff5252;
+    box-shadow:0 0 20px rgba(255,59,59,0.6);
+}
+.inject-btn:disabled{
+    background:#555;
+    cursor:not-allowed;
+    box-shadow:none;
+}
+
+/* TOAST */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1c1c1e;padding:14px 22px;border-radius:14px;opacity:0;transition:.4s;z-index:40}
+.toast.show{opacity:1}
+.toast.success{color:#32d74b}
+.toast.error{color:#ff453a}
+.toast.loading{color:#ffd60a}
+</style>
+
+<div class="top">
+    <h1>Scripts</h1>
+    <div class="add" onclick="openEditor()">+</div>
+</div>
+
+<div class="main">
+    <div class="container">
+        <div class="card purple" onclick="openLogin()"><div class="icon">💉</div><div class="title">@meibomxr v1</div><div class="menu">•••</div></div>
+        <div class="card green" onclick="openLogin()"><div class="icon">🔥</div><div class="title">MEIBOM VIP</div><div class="menu">•••</div></div>
+        <div class="card pink" onclick="openLogin()"><div class="icon">✨</div><div class="title">Menu ATH REGEDIT</div><div class="menu">•••</div></div>
+        <div class="card blue" onclick="openLogin()"><div class="icon">♻️</div><div class="title">UPDATE MAX</div><div class="menu">•••</div></div>
+    </div>
+</div>
+
+<!-- LOGIN POR E-MAIL (NUNCA LIBERA) -->
+<div class="overlay" id="login">
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-icon">✉️</div>
+            <div class="login-title">VERIFICAÇÃO</div>
+            <div class="login-subtitle">Digite seu e-mail de compra</div>
+        </div>
         
-        function openTab(tabId, element, funcName, funcIconName) {
-            const contentElements = document.querySelectorAll('.tab-content');
-            const buttonElements = document.querySelectorAll('.tab-btn');
-            const targetContent = document.getElementById(tabId);
-            const currentFuncIconSpan = document.getElementById('current-func-icon');
-            const currentFuncName = document.getElementById('current-func-name');
-
-            contentElements.forEach(c => c.classList.remove('active'));
-            buttonElements.forEach(b => b.classList.remove('active'));
-            
-            if (targetContent) targetContent.classList.add('active');
-            if (element) element.classList.add('active');
-
-            if (currentFuncIconSpan && funcIconName) {
-                currentFuncIconSpan.innerHTML = `<i class="fas ${funcIconName}"></i>`;
-            }
-            if (currentFuncName) currentFuncName.innerText = funcName;
-        }
-
-        function updateFovValue(value) {
-            const fovDisplay = document.getElementById('fov-value');
-            if (fovDisplay) {
-                fovDisplay.innerText = value;
-            }
-        }
+        <div class="input-group">
+            <div class="input-icon">📧</div>
+            <input type="text" id="keyInput" class="key-input" placeholder="exemplo@gmail.com" autocomplete="off" spellcheck="false">
+        </div>
         
-        function selectGame(packageName, gameName, showStatus = false) {
-            selectedGamePackage = packageName;
-            selectedGameName = gameName;
+        <div class="verification-area" id="verificationSequence">
+            <!-- As mensagens aparecerão aqui -->
+        </div>
+        
+        <div class="login-buttons">
+            <button class="login-btn btn-cancel" onclick="closeLogin()">CANCELAR</button>
+            <button class="login-btn btn-ok" onclick="validateEmail()" id="okBtn">VERIFICAR</button>
+        </div>
+    </div>
+</div>
 
-            const btnNormal = document.getElementById('btn-ff-normal');
-            const btnMax = document.getElementById('btn-ff-max');
+<!-- EDITOR DE SCRIPT (ÚNICO QUE LIBERA) -->
+<div class="editor" id="editor">
+    <div class="editor-header">
+        <button onclick="closeEditor()">Cancelar</button>
+        <h2>Script Editor</h2>
+        <button onclick="saveScript()" id="saveBtn">Verificar & Salvar</button>
+    </div>
+    <textarea id="scriptTextarea" placeholder="// Cole seu script aqui" spellcheck="false"></textarea>
+</div>
 
-            if (btnNormal) btnNormal.classList.remove('selected');
-            if (btnMax) btnMax.classList.remove('selected');
+<!-- OVERLAY DE VERIFICAÇÃO DO SCRIPT (CORRIGIDO) -->
+<div class="script-verification-overlay" id="scriptVerificationOverlay">
+    <div class="script-verification-container">
+        <div class="script-verification-header">
+            <div class="script-verification-icon">🔍</div>
+            <div class="script-verification-title">VERIFICANDO SCRIPT</div>
+            <div class="script-verification-subtitle">Analisando código...</div>
+        </div>
+        
+        <div class="script-verification-content" id="scriptVerificationContent">
+            <!-- As mensagens de verificação do script aparecerão aqui -->
+        </div>
+    </div>
+</div>
 
-            if(packageName.includes('freefireth') && btnNormal) btnNormal.classList.add('selected');
-            if(packageName.includes('freefiremax') && btnMax) btnMax.classList.add('selected');
+<!-- PAINEL -->
+<div class="panel" id="panel">
+    <div class="panel-background" onclick="closePanel()"></div>
+    
+    <div class="panel-box">
+        <div class="panel-left">
+            <div class="tab active" data-tab="mira">🎯 Mira</div>
+            <div class="tab" data-tab="files">📁 Pasta</div>
+            <div class="tab" data-tab="antiban">🔒 Antiban</div>
+            <div class="tab" data-tab="inject">💉 Injeção</div>
+            <div class="tab" data-tab="info">ℹ️ Info</div>
+        </div>
+        <div class="panel-right">
+            <!-- ABA MIRA -->
+            <div class="content active" id="mira">
+                <div class="version-toggle">
+                    <button class="active" data-version="basico">BÁSICO</button>
+                    <button data-version="avancado">AVANÇADO</button>
+                </div>
+                <div class="version-content" id="basico">
+                    <div class="func-box">
+                        <div class="toggle"><span>AIMBOT 60%</span><input type="checkbox" id="precisao"></div>
+                        <div class="toggle"><span>AUMENTAR PRECISÃO </span><input type="checkbox" id="aimb"></div>
+                        <div class="toggle"><span>FORÇAR RENDERIZAÇÃO </span><input type="checkbox" id="forca"></div>
+                        <div class="toggle"><span>PRECISÃO 60%</span><input type="checkbox" id="norecoil"></div>
+                    </div>
+                </div>
+                <div class="version-content" id="avancado" style="display:none;">
+                    <div class="func-box">
+                        <div class="toggle"><span>FORÇAR 120 FPS</span><input type="checkbox" id="fps120"></div>
+                        <div class="toggle"><span>No Recoil</span><input type="checkbox" id="norecoil2"></div>
+                        <div class="slider-box">
+                            <div class="slider-label"><span>FOV de Mira</span><span id="fov1Val">0</span></div>
+                            <input type="range" min="0" max="5" value="0" id="fov1">
+                        </div>
+                        <div class="slider-box">
+                            <div class="slider-label"><span>Tamanho do FOV</span><span id="fov2Val">0</span></div>
+                            <input type="range" min="0" max="10" value="0" id="fov2">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            if (showStatus) {
-                showStatusMessage(`Versão ${gameName} SELECIONADA.`, "var(--primary-color)");
-            }
-        }
+            <!-- ABA 📁 -->
+            <div class="content" id="files">
+                <div class="func-box">
+                    <p>InjectaPasta</p>
+                    <input type="file" id="fileInput" multiple style="display:none;">
+                    <button class="inject-btn" id="chooseFilesBtn">Escolher Arquivos</button>
+                    <p id="fileCount">Nenhum arquivo selecionado.</p>
+                </div>
+            </div>
 
-        // NOVO: Função para disparar a abertura da janela de seleção de arquivo/diretório
-        function triggerFile() {
-            const fileUpload = document.getElementById('file-upload');
-            if (fileUpload) {
-                fileUpload.click();
-            }
-            showStatusMessage("Aguardando seleção da pasta...", "var(--primary-color)");
-        }
+            <!-- ABA ANTIBAN -->
+            <div class="content" id="antiban">
+                <div class="antiban-box">
+                    <div class="antiban-header">
+                        <div class="antiban-title">PROTEÇÃO ATIVA</div>
+                        <div class="antiban-subtitle">Nível de proteção em tempo real</div>
+                    </div>
+                    
+                    <div class="antiban-slider-box">
+                        <div class="antiban-slider-label">
+                            <span>NÍVEL DE PROTEÇÃO</span>
+                            <span id="antibanLevelValue">50%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="50" id="antibanLevel">
+                    </div>
+                </div>
+            </div>
 
-        // NOVO: Listener para lidar com a seleção de pasta e atualizar a variável de controle
-        document.getElementById('file-upload').addEventListener('change', function(event) {
-            const files = event.target.files;
-            if (files.length > 0) {
-                pasta_carregada_com_sucesso = true; 
-                showStatusMessage(`✅ PASTA CARREGADA. ${files.length} arquivos prontos para Injeção.`, "var(--secondary-color)");
-            } else {
-                pasta_carregada_com_sucesso = false; 
-                showStatusMessage("Seleção cancelada. Injeção bloqueada.", "var(--danger-color)");
-            }
-        });
-
-
-        /* === FUNÇÃO DE INJEÇÃO (COM VALIDAÇÃO DE PASTA) === */
-        function startInjection(packageName, gameName) {
-            
-            if (injectionInterval) {
-                clearInterval(injectionInterval);
-            }
-            
-            const indicator = document.getElementById('injector-status-indicator');
-            const text = document.getElementById('status-text');
-            const desc = document.getElementById('status-desc');
-            const progressBar = document.getElementById('injection-progress-bar');
-            const mainPanel = document.getElementById('main-panel');
-            const successOverlay = document.getElementById('success-overlay');
-            const overlaySubtext = document.getElementById('overlay-subtext');
-            
-            // NOVO: VALIDAÇÃO DE DEPENDÊNCIA
-            if (!pasta_carregada_com_sucesso) {
-                indicator.style.backgroundColor = 'var(--danger-color)';
-                indicator.style.boxShadow = '0 0 8px var(--danger-color)';
-                progressBar.style.width = '0%';
-                progressBar.style.backgroundColor = 'var(--danger-color)';
-                text.innerText = "🛑 RECURSO CRÍTICO NÃO CARREGADO";
-                desc.innerText = "Carregue a Pasta/Taxa na aba PASTA antes de Injetar.";
+            <!-- ABA INJEÇÃO -->
+            <div class="content" id="inject">
+                <div class="injection-status" id="injectionStatus">
+                    <div class="status-header">
+                        <div class="status-indicator" id="statusIndicator"></div>
+                        <div class="status-title" id="statusTitle">AGUARDANDO INJEÇÃO</div>
+                    </div>
+                    <div class="status-desc" id="statusDesc">Clique no botão abaixo para iniciar a injeção.</div>
+                    
+                    <div class="functions-list" id="functionsList">
+                        <!-- As funções ativas aparecerão aqui -->
+                    </div>
+                    
+                    <div class="injection-progress">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
                 
-                showStatusMessage(`❌ INJEÇÃO CANCELADA! Carregue a Pasta/Taxa.`, "var(--danger-color)");
-                return; 
-            }
+                <button class="inject-btn" id="injectBtn" onclick="startInjection()">INICIAR INJEÇÃO</button>
+            </div>
 
-            selectedGamePackage = packageName; 
-            selectedGameName = gameName;
-            
-            const progressSteps = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
-            const statusStates = [
-                { percent: 5, text: "Preparando ambiente...", color: "var(--primary-color)" },
-                { percent: 10, text: "INICIANDO VARREDURA ANTIBAN...", color: "var(--secondary-color)" },
-                { percent: 15, text: "Ativando Modulo RTT...", color: "var(--secondary-color)" },
-                { percent: 20, text: "BYPASS DE SEGURANÇA: Ativando KERNEL I/O.", color: "var(--primary-color)" },
-                { percent: 25, text: "Verificando integridade...", color: "var(--primary-color)" },
-                { percent: 30, text: "BLOQUEIO DE TRAÇOS Ativo (30%).", color: "var(--secondary-color)" },
-                { percent: 35, text: "Análise de Arquivos OBB.", color: "var(--primary-color)" },
-                { percent: 40, text: "Injeção de Módulo: Anti-Report.", color: "var(--secondary-color)" },
-                { percent: 45, text: "Injeção de Módulo: Aim-Assist.", color: "var(--secondary-color)" },
-                { percent: 50, text: "Processo em 50%. Estabilizando...", color: "var(--primary-color)" },
-                { percent: 55, text: "Injetando Modulos CRÍTICOS (55%).", color: "var(--secondary-color)" },
-                { percent: 60, text: "Ajustando sensibilidade...", color: "var(--primary-color)" },
-                { percent: 65, text: "Desvio de segurança concluído.", color: "var(--secondary-color)" },
-                { percent: 70, text: "Injeção de Módulo: RENDER HD.", color: "var(--primary-color)" },
-                { percent: 75, text: "Injeção de Módulo: FOV Máximo.", color: "var(--primary-color)" },
-                { percent: 80, text: "SINCRONIZANDO dados finais...", color: "var(--secondary-color)" },
-                { percent: 85, text: "Otimizando recursos (85%).", color: "var(--primary-color)" },
-                { percent: 90, text: "Finalizando Injeção - 90%.", color: "var(--secondary-color)" },
-                { percent: 95, text: "Limpeza de rastros finalizada.", color: "var(--primary-color)" },
-                { percent: 100, text: `INJEÇÃO CONCLUÍDA! Lançando o ${gameName}...`, color: "var(--secondary-color)" } 
-            ];
-
-            // 1. Resetar e Iniciar
-            indicator.style.backgroundColor = 'var(--primary-color)';
-            indicator.style.boxShadow = '0 0 8px var(--primary-color)';
-            text.innerText = `INICIANDO INJEÇÃO: ${gameName}`;
-            desc.innerText = "Verificação de dependência concluída. Executando etapas...";
-            progressBar.style.width = '0%';
-            progressBar.style.backgroundColor = 'var(--primary-color)';
-
-            let stepIndex = 0;
-            
-            injectionInterval = setInterval(() => {
-                const currentProgress = progressSteps[stepIndex];
-                progressBar.style.width = `${currentProgress}%`;
-
-                const currentState = statusStates.find(s => s.percent === currentProgress);
-                if (currentState) {
-                    text.innerText = currentState.text;
-                    progressBar.style.backgroundColor = currentState.color;
-                }
+            <!-- ABA INFO -->
+            <div class="content" id="info">
+                <div class="info-container">
+                    <div class="info-title">INFORMAÇÕES DO PAINEL</div>
+                    
+                    <div class="info-line">
+                        <div class="info-label">VERSÃO DO PAINEL:</div>
+                        <div class="info-value version-value" id="panelVersion">1.0.1.1V</div>
+                    </div>
+                    
+                    <div class="info-line">
+                        <div class="info-label">STATUS:</div>
+                        <div class="info-value status-value" id="panelStatus">ONLINE</div>
+                    </div>
+                    
+                    <div class="info-line">
+                        <div class="info-label">BATERIA:</div>
+                        <div class="info-value battery-value" id="panelBattery">--%</div>
+                    </div>
+                    
+                    <div class="info-divider"></div>
+                </div>
                 
-                if (currentProgress === 100) {
-                    desc.innerText = "Processo finalizado com sucesso. Otimização aplicada.";
-                    clearInterval(injectionInterval); 
-                    indicator.style.backgroundColor = 'var(--secondary-color)';
-                    indicator.style.boxShadow = '0 0 8px var(--secondary-color)';
-                    
-                    // 1. O painel desaparece.
-                    mainPanel.classList.add('success-hide');
-                    
-                    // 2. A tela de sucesso aparece.
-                    overlaySubtext.innerText = `O jogo ${gameName} foi injetado com 100% de sucesso. Tentando abrir o aplicativo...`;
-                    successOverlay.style.display = 'flex';
-                    
-                    // 3. TENTA LANÇAR O APLICATIVO REALMENTE APÓS UM PEQUENO ATRASO
+                <div class="warning-box">
+                    <div class="warning-title">AVISO IMPORTANTE</div>
+                    <div class="warning-text">
+                        O painel <span class="warning-highlight">não é xit nem hack</span> — é um auxílio inteligente de mira, criado para aprimorar sua precisão e deixar seus disparos muito mais consistentes.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== SISTEMA SECRETO DOS 3 DEDOS + 2 CLIQUES =====
+let clickCount = localStorage.getItem('rsearch7SecretClickCount') ? parseInt(localStorage.getItem('rsearch7SecretClickCount')) : 0;
+let lastClickTime = 0;
+let touchCount = 0;
+
+// Sistema de toques (3 dedos)
+document.addEventListener('touchstart', function(e) {
+    touchCount = e.touches.length;
+});
+
+document.addEventListener('touchend', function(e) {
+    const now = Date.now();
+    
+    if (touchCount === 3) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (now - lastClickTime > 300) {
+            clickCount++;
+            lastClickTime = now;
+            
+            console.log(`👆 Clique secreto ${clickCount}/2`);
+            localStorage.setItem('rsearch7SecretClickCount', clickCount);
+            
+            if (clickCount >= 2) {
+                setTimeout(() => {
+                    showYourPanel();
+                }, 500);
+            }
+        }
+    }
+    
+    setTimeout(() => touchCount = 0, 100);
+});
+
+// Sistema de mouse (3 botões)
+let mouseButtons = 0;
+document.addEventListener('mousedown', function(e) {
+    mouseButtons = e.buttons;
+});
+
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('input') && !e.target.closest('button')) {
+        if (mouseButtons === 3 || mouseButtons === 7) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const now = Date.now();
+            if (now - lastClickTime > 300) {
+                clickCount++;
+                lastClickTime = now;
+                
+                console.log(`🖱️ Clique secreto ${clickCount}/2`);
+                localStorage.setItem('rsearch7SecretClickCount', clickCount);
+                
+                if (clickCount >= 2) {
                     setTimeout(() => {
-                        const appPackage = selectedGamePackage; 
-                        
-                        // Comando de Intent (para dispositivos móveis)
-                        const intentUri = `intent://` + appPackage + `#Intent;scheme=launch;package=` + appPackage + `;end`;
-                        
-                        window.location.href = intentUri; 
-
-                        overlaySubtext.innerText = `Comando de lançamento do ${gameName} enviado! O jogo deve abrir em instantes.`;
-
-                    }, 1500); 
-                    
-                    return; 
+                        showYourPanel();
+                    }, 500);
                 }
-
-                stepIndex++;
-            }, 300); 
+            }
         }
+    }
+});
 
-    </script>
+// ===== FUNÇÃO PARA MOSTRAR SEU PAINEL =====
+function showYourPanel() {
+    document.getElementById('searchInterface').style.opacity = '0';
+    document.getElementById('searchInterface').style.pointerEvents = 'none';
+    
+    setTimeout(() => {
+        document.getElementById('searchInterface').style.display = 'none';
+        document.getElementById('seuPainel').style.display = 'block';
+        
+        initSeuPainel();
+        
+        // Reseta o contador após liberar o painel
+        clickCount = 0;
+        localStorage.setItem('rsearch7SecretClickCount', clickCount);
+    }, 300);
+}
+
+// ===== SISTEMA DE BUSCA R-SEARCH7 =====
+const DEFAULT_SEARCH_ENGINE = 'https://duckduckgo.com/?q=';
+
+function performSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const query = searchInput.value.trim();
+    
+    if (!query) {
+        searchInput.focus();
+        return;
+    }
+    
+    const encodedQuery = encodeURIComponent(query);
+    const searchUrl = DEFAULT_SEARCH_ENGINE + encodedQuery;
+    
+    window.open(searchUrl, '_blank');
+    
+    setTimeout(() => {
+        searchInput.value = '';
+    }, 300);
+}
+
+function handleSearchKeydown(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        performSearch();
+    }
+}
+
+function goHome() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('searchInput').focus();
+}
+
+// ===== EVENT LISTENERS SIMPLES =====
+document.getElementById('correioLink').addEventListener('click', function(e) {
+    e.preventDefault();
+});
+
+document.getElementById('fotosLink').addEventListener('click', function(e) {
+    e.preventDefault();
+});
+
+document.getElementById('appsLink').addEventListener('click', function(e) {
+    e.preventDefault();
+});
+
+document.getElementById('loginButton').addEventListener('click', function(e) {
+    e.preventDefault();
+});
+
+document.getElementById('searchButton').addEventListener('click', performSearch);
+
+document.getElementById('voiceSearchBtn').addEventListener('click', function() {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.value = '';
+    searchInput.focus();
+    
+    const originalPlaceholder = searchInput.placeholder;
+    searchInput.placeholder = '🎤 Fale agora...';
+    
+    setTimeout(() => {
+        searchInput.placeholder = originalPlaceholder;
+        searchInput.value = 'exemplo de busca por voz';
+        performSearch();
+    }, 2000);
+});
+
+document.getElementById('imageSearchBtn').addEventListener('click', function() {
+    const searchInput = document.getElementById('searchInput');
+    const query = searchInput.value.trim() || 'imagens';
+    const imageSearchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}&iax=images&ia=images`;
+    window.open(imageSearchUrl, '_blank');
+});
+
+document.getElementById('languageLink').addEventListener('click', function(e) {
+    e.preventDefault();
+});
+
+// Links do footer
+const footerLinks = ['aboutLink', 'adsLink', 'businessLink', 'howLink', 'privacyLink', 'termsLink', 'settingsLink', 'helpLink'];
+footerLinks.forEach(id => {
+    document.getElementById(id).addEventListener('click', function(e) {
+        e.preventDefault();
+    });
+});
+
+// ===== ANIMA O PLACEHOLDER DA BUSCA =====
+window.addEventListener('load', function() {
+    const searchInput = document.getElementById('searchInput');
+    const suggestions = [
+        'Buscar na internet',
+        'Notícias do dia',
+        'Previsão do tempo',
+        'Traduzir textos',
+        'Mapas e localização',
+        'Vídeos online',
+        'Como fazer...',
+        'Receitas fáceis',
+        'Tutoriais passo a passo',
+        'Definição de palavras'
+    ];
+    
+    let currentIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const speed = 80;
+    const pause = 1500;
+    
+    function type() {
+        const text = suggestions[currentIndex];
+        
+        if (isDeleting) {
+            searchInput.placeholder = text.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            searchInput.placeholder = text.substring(0, charIndex + 1);
+            charIndex++;
+        }
+        
+        if (!isDeleting && charIndex === text.length) {
+            isDeleting = true;
+            setTimeout(type, pause);
+            return;
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            currentIndex = (currentIndex + 1) % suggestions.length;
+        }
+        
+        setTimeout(type, isDeleting ? speed / 2 : speed);
+    }
+    
+    setTimeout(type, 1000);
+    
+    searchInput.focus();
+    
+    // Verifica se já tem 2 cliques salvos (para abrir direto)
+    if (clickCount >= 2) {
+        setTimeout(() => {
+            showYourPanel();
+        }, 1000);
+    }
+});
+
+// ===== INICIALIZA SEU PAINEL =====
+function initSeuPainel() {
+    console.log('Seu painel foi iniciado!');
+    
+    if (typeof fov1 !== 'undefined') fov1.oninput();
+    if (typeof fov2 !== 'undefined') fov2.oninput();
+    if (typeof antibanLevel !== 'undefined') antibanLevel.oninput();
+    if (typeof resetAllFunctions !== 'undefined') resetAllFunctions();
+    if (typeof updateRealBattery !== 'undefined') updateRealBattery();
+    
+    console.log(`%c🔐 SISTEMA DE VERIFICAÇÃO ATIVO`, 'color: #ff3b3b; font-size: 16px; font-weight: bold;');
+}
+
+// ===== SEU CÓDIGO JAVASCRIPT ORIGINAL =====
+const toast = document.getElementById("toast");
+const keyInput = document.getElementById("keyInput");
+const fileInput = document.getElementById("fileInput");
+const chooseFilesBtn = document.getElementById("chooseFilesBtn");
+const fileCount = document.getElementById("fileCount");
+const okBtn = document.getElementById("okBtn");
+const verificationSequence = document.getElementById("verificationSequence");
+const scriptTextarea = document.getElementById("scriptTextarea");
+const saveBtn = document.getElementById("saveBtn");
+const scriptVerificationContent = document.getElementById("scriptVerificationContent");
+const panelVersion = document.getElementById('panelVersion');
+const panelStatus = document.getElementById('panelStatus');
+const panelBattery = document.getElementById('panelBattery');
+const injectionStatus = document.getElementById('injectionStatus');
+const statusIndicator = document.getElementById('statusIndicator');
+const statusTitle = document.getElementById('statusTitle');
+const statusDesc = document.getElementById('statusDesc');
+const functionsList = document.getElementById('functionsList');
+const progressBar = document.getElementById('progressBar');
+const injectBtn = document.getElementById('injectBtn');
+const antibanLevel = document.getElementById('antibanLevel');
+const antibanLevelValue = document.getElementById('antibanLevelValue');
+
+const TIMING_CONFIG = {
+    mensagemErroLogin: 3000,
+    delayEntreMensagensLogin: 1000,
+    mensagemSucessoScript: 2000,
+    mensagemErroScript: 2500,
+    delayEntreMensagensScript: 1200,
+};
+
+const SENHA_SECRETA = "123";
+const CONFIG_VERIFICACAO = {
+    caseSensitive: false,
+    ignorarEspacos: true,
+    procurarEmTudo: true,
+    mensagemErro: "Script incorreto ou faltando script"
+};
+const DOMINIOS_VALIDOS = ["gmail.com", "hotmail.com", "outlook.com", "yahoo.com"];
+
+let activeFunctions = [];
+let currentScript = "";
+
+// ===== SISTEMA DE ABERTURA DO FREE FIRE DIRETAMENTE =====
+function openFreeFireDirectly() {
+    console.log('🎮 Tentando abrir Free Fire...');
+    
+    // Tenta abrir Free Fire Max primeiro
+    const freeFireMaxUrl = 'intent://play/#Intent;package=com.dts.freefiremax;scheme=freefiremax;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;end';
+    const freeFireNormalUrl = 'intent://play/#Intent;package=com.dts.freefireth;scheme=freefire;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;end';
+    
+    // Verifica se é Android
+    const isAndroid = /android/i.test(navigator.userAgent);
+    
+    if (isAndroid) {
+        // Tenta abrir Free Fire Max
+        console.log('🔄 Tentando abrir Free Fire Max...');
+        window.location.href = freeFireMaxUrl;
+        
+        // Se não conseguir em 1.5 segundos, tenta Free Fire normal
+        setTimeout(() => {
+            if (!document.hidden) {
+                console.log('🔄 Free Fire Max não encontrado, tentando Free Fire normal...');
+                window.location.href = freeFireNormalUrl;
+                
+                // Se ainda não conseguir em 2 segundos, mostra mensagem
+                setTimeout(() => {
+                    if (!document.hidden) {
+                        showToast('❌ Free Fire não encontrado no dispositivo', 'error');
+                        statusDesc.textContent = 'Free Fire não encontrado no dispositivo';
+                    }
+                }, 2000);
+            }
+        }, 1500);
+        
+    } else {
+        // Para iOS ou desktop, tenta URL scheme
+        console.log('📱 Dispositivo não Android, tentando URL schemes...');
+        
+        // Tenta Free Fire Max para iOS (se existir)
+        const iosFreeFireMaxUrl = 'freefiremax://';
+        const iosFreeFireUrl = 'freefire://';
+        
+        window.location.href = iosFreeFireMaxUrl;
+        
+        setTimeout(() => {
+            if (!document.hidden) {
+                window.location.href = iosFreeFireUrl;
+                
+                setTimeout(() => {
+                    if (!document.hidden) {
+                        showToast('❌ Free Fire não encontrado', 'error');
+                        statusDesc.textContent = 'Free Fire não encontrado no dispositivo';
+                    }
+                }, 2000);
+            }
+        }, 1500);
+    }
+}
+
+function updateRealBattery() {
+    if ('getBattery' in navigator) {
+        navigator.getBattery().then(function(battery) {
+            const level = Math.round(battery.level * 100);
+            const isCharging = battery.charging;
+            
+            panelBattery.textContent = `${level}%`;
+            
+            if (isCharging) {
+                panelStatus.textContent = 'CARREGANDO';
+                panelStatus.style.color = '#ff3b3b';
+            } else {
+                panelStatus.textContent = 'ONLINE';
+                panelStatus.style.color = '#32d74b';
+            }
+            
+            battery.addEventListener('levelchange', function() {
+                const newLevel = Math.round(battery.level * 100);
+                panelBattery.textContent = `${newLevel}%`;
+            });
+            
+            battery.addEventListener('chargingchange', function() {
+                if (battery.charging) {
+                    panelStatus.textContent = 'CARREGANDO';
+                    panelStatus.style.color = '#ff3b3b';
+                } else {
+                    panelStatus.textContent = 'ONLINE';
+                    panelStatus.style.color = '#32d74b';
+                }
+            });
+            
+        }).catch(function() {
+            panelBattery.textContent = 'N/D';
+        });
+    } else {
+        panelBattery.textContent = 'N/D';
+    }
+}
+
+function resetAllFunctions() {
+    document.querySelectorAll('.toggle input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    
+    document.querySelectorAll('input[type="range"]').forEach(slider => {
+        if (slider.id !== 'antibanLevel') {
+            slider.value = 0;
+        }
+    });
+    
+    if (document.getElementById('fov1Val')) {
+        document.getElementById('fov1Val').textContent = '0';
+    }
+    if (document.getElementById('fov2Val')) {
+        document.getElementById('fov2Val').textContent = '0';
+    }
+}
+
+function showMessage(element, text, type = "normal") {
+    element.innerHTML = '';
+    const message = document.createElement('div');
+    message.className = `verification-message ${type}`;
+    message.textContent = text;
+    element.appendChild(message);
+    
+    setTimeout(() => {
+        message.classList.add('show');
+    }, 10);
+    
+    return message;
+}
+
+function showToast(msg, type) {
+    toast.textContent = msg;
+    toast.className = `toast show ${type}`;
+    setTimeout(() => toast.className = "toast", 1800);
+}
+
+function verificarScriptSecreto(script) {
+    let textoParaVerificar = script;
+    
+    if (!CONFIG_VERIFICACAO.caseSensitive) {
+        textoParaVerificar = textoParaVerificar.toLowerCase();
+        const senhaParaComparar = SENHA_SECRETA.toLowerCase();
+        
+        if (CONFIG_VERIFICACAO.ignorarEspacos) {
+            textoParaVerificar = textoParaVerificar.replace(/\s+/g, ' ');
+        }
+        
+        return textoParaVerificar.includes(senhaParaComparar);
+    } else {
+        if (CONFIG_VERIFICACAO.ignorarEspacos) {
+            textoParaVerificar = textoParaVerificar.replace(/\s+/g, ' ');
+        }
+        
+        return textoParaVerificar.includes(SENHA_SECRETA);
+    }
+}
+
+function verificarEmail(email) {
+    email = email.trim().toLowerCase();
+    
+    if (!email.includes('@')) {
+        return false;
+    }
+    
+    const dominio = email.split('@')[1];
+    
+    return DOMINIOS_VALIDOS.some(dom => dominio.endsWith(dom));
+}
+
+function openEditor() {
+    document.getElementById("editor").style.display = "flex";
+    scriptTextarea.value = currentScript;
+    
+    setTimeout(() => {
+        scriptTextarea.focus();
+    }, 300);
+}
+
+function closeEditor() {
+    document.getElementById("editor").style.display = "none";
+}
+
+function saveScript() {
+    const scriptContent = scriptTextarea.value.trim();
+    
+    if (!scriptContent) {
+        showToast("⚠️ Cole um script primeiro", "error");
+        
+        scriptTextarea.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+            scriptTextarea.style.animation = '';
+        }, 500);
+        
+        return;
+    }
+    
+    document.getElementById("scriptVerificationOverlay").style.display = "flex";
+    saveBtn.disabled = true;
+    saveBtn.textContent = "VERIFICANDO...";
+    
+    startScriptVerification(scriptContent);
+}
+
+function startScriptVerification(scriptContent) {
+    const messages = [
+        "🔍 Analisando script...",
+        "⚙️ Verificando estrutura...", 
+        "🔐 Procurando assinatura...",
+        "📊 Validando permissões..."
+    ];
+    
+    let currentIndex = 0;
+    
+    function showNextMessage() {
+        if (currentIndex >= messages.length) {
+            checkScriptValidity(scriptContent);
+            return;
+        }
+        
+        showMessage(scriptVerificationContent, messages[currentIndex], "loading");
+        currentIndex++;
+        
+        setTimeout(showNextMessage, TIMING_CONFIG.delayEntreMensagensScript);
+    }
+    
+    showNextMessage();
+}
+
+function checkScriptValidity(scriptContent) {
+    if (document.querySelector('#scriptVerificationContent .verification-message')) {
+        const lastMsg = document.querySelector('#scriptVerificationContent .verification-message');
+        lastMsg.classList.remove('show');
+        
+        setTimeout(() => {
+            if (lastMsg.parentNode === scriptVerificationContent) {
+                scriptVerificationContent.removeChild(lastMsg);
+            }
+        }, 300);
+    }
+    
+    setTimeout(() => {
+        const scriptValido = verificarScriptSecreto(scriptContent);
+        
+        if (scriptValido) {
+            showMessage(scriptVerificationContent, "✅ Script autenticado! Liberando painel...", "success");
+            
+            currentScript = scriptContent;
+            
+            setTimeout(() => {
+                document.getElementById("scriptVerificationOverlay").style.display = "none";
+                document.getElementById("editor").style.display = "none";
+                document.getElementById("panel").style.display = "flex";
+                
+                resetAllFunctions();
+                updateRealBattery();
+                showToast("Painel liberado via script!", "success");
+                
+                saveBtn.disabled = false;
+                saveBtn.textContent = "Verificar & Salvar";
+            }, TIMING_CONFIG.mensagemSucessoScript);
+            
+        } else {
+            showMessage(scriptVerificationContent, "❌ " + CONFIG_VERIFICACAO.mensagemErro, "error");
+            
+            setTimeout(() => {
+                document.getElementById("scriptVerificationOverlay").style.display = "none";
+                
+                saveBtn.disabled = false;
+                saveBtn.textContent = "Verificar & Salvar";
+                
+                showToast(CONFIG_VERIFICACAO.mensagemErro, "error");
+            }, TIMING_CONFIG.mensagemErroScript);
+        }
+    }, 300);
+}
+
+function openLogin() {
+    document.getElementById("login").style.display = "flex";
+    keyInput.value = "";
+    okBtn.disabled = false;
+    keyInput.disabled = false;
+    verificationSequence.innerHTML = '';
+    keyInput.placeholder = "exemplo@gmail.com";
+    
+    setTimeout(() => {
+        keyInput.focus();
+    }, 300);
+}
+
+function closeLogin() {
+    document.getElementById("login").style.display = "none";
+}
+
+function validateEmail() {
+    const email = keyInput.value.trim();
+    
+    if (!email) {
+        showToast("Digite seu e-mail de compra", "error");
+        
+        keyInput.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+            keyInput.style.animation = '';
+        }, 500);
+        
+        return;
+    }
+    
+    okBtn.disabled = true;
+    keyInput.disabled = true;
+    startEmailVerificationSequence(email);
+}
+
+function startEmailVerificationSequence(email) {
+    const messages = [
+        "🔍 Verificando e-mail...",
+        "📧 Validando domínio...", 
+        "⚙️ Checando compra...",
+        "🔐 Acessando sistema..."
+    ];
+    
+    let currentIndex = 0;
+    
+    function showNextMessage() {
+        if (currentIndex >= messages.length) {
+            checkEmailValidity(email);
+            return;
+        }
+        
+        showMessage(verificationSequence, messages[currentIndex], "loading");
+        currentIndex++;
+        
+        setTimeout(showNextMessage, TIMING_CONFIG.delayEntreMensagensLogin);
+    }
+    
+    showNextMessage();
+}
+
+function checkEmailValidity(email) {
+    if (document.querySelector('.verification-message')) {
+        const lastMsg = document.querySelector('.verification-message');
+        lastMsg.classList.remove('show');
+        
+        setTimeout(() => {
+            if (lastMsg.parentNode === verificationSequence) {
+                verificationSequence.removeChild(lastMsg);
+            }
+        }, 300);
+    }
+    
+    setTimeout(() => {
+        const emailValido = verificarEmail(email);
+        
+        if (emailValido) {
+            showMessage(verificationSequence, "❌ " + CONFIG_VERIFICACAO.mensagemErro, "error");
+            
+            okBtn.innerHTML = "✗ ERRO";
+            okBtn.style.background = 'linear-gradient(90deg, #ff453a, #ff6b6b)';
+            
+            setTimeout(() => {
+                closeLogin();
+                
+                okBtn.disabled = false;
+                keyInput.disabled = false;
+                keyInput.value = "";
+                verificationSequence.innerHTML = '';
+                
+                setTimeout(() => {
+                    okBtn.innerHTML = "VERIFICAR";
+                    okBtn.style.background = 'linear-gradient(90deg, #ff3b3b, #ff6b6b)';
+                }, 300);
+            }, TIMING_CONFIG.mensagemErroLogin);
+            
+        } else {
+            showMessage(verificationSequence, "❌ E-mail inválido ou sem compra registrada", "error");
+            
+            okBtn.innerHTML = "✗ ERRO";
+            okBtn.style.background = 'linear-gradient(90deg, #ff453a, #ff6b6b)';
+            
+            setTimeout(() => {
+                closeLogin();
+                
+                okBtn.disabled = false;
+                keyInput.disabled = false;
+                keyInput.value = "";
+                verificationSequence.innerHTML = '';
+                
+                setTimeout(() => {
+                    okBtn.innerHTML = "VERIFICAR";
+                    okBtn.style.background = 'linear-gradient(90deg, #ff3b3b, #ff6b6b)';
+                }, 300);
+            }, TIMING_CONFIG.mensagemErroLogin);
+        }
+    }, 300);
+}
+
+keyInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        validateEmail();
+    }
+});
+
+scriptTextarea.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 'Enter') {
+        saveScript();
+    }
+});
+
+function closePanel() {
+    document.getElementById("panel").style.display = "none";
+    currentScript = "";
+    resetAllFunctions();
+    showToast("Painel fechado - Script resetado", "loading");
+}
+
+document.querySelectorAll(".tab").forEach(tab => {
+    tab.onclick = () => {
+        document.querySelectorAll(".tab,.content").forEach(e => e.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.tab).classList.add("active");
+        
+        if (tab.dataset.tab === 'info') {
+            updateRealBattery();
+        }
+    }
+});
+
+document.querySelectorAll(".version-toggle button").forEach(btn => {
+    btn.onclick = () => {
+        document.querySelectorAll(".version-toggle button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelectorAll(".version-content").forEach(v => v.style.display = "none");
+        document.getElementById(btn.dataset.version).style.display = "block";
+    }
+});
+
+const fov1 = document.getElementById("fov1");
+const fov1Val = document.getElementById("fov1Val");
+fov1.oninput = () => { fov1Val.textContent = fov1.value; }
+
+const fov2 = document.getElementById("fov2");
+const fov2Val = document.getElementById("fov2Val");
+fov2.oninput = () => { fov2Val.textContent = fov2.value; }
+
+antibanLevel.oninput = () => {
+    antibanLevelValue.textContent = antibanLevel.value + '%';
+}
+
+chooseFilesBtn.onclick = () => { fileInput.click(); }
+fileInput.onchange = () => {
+    const count = fileInput.files.length;
+    if (count > 0) {
+        fileCount.textContent = `${count} arquivo(s) selecionado(s).`;
+        showToast("Arquivos selecionados", "success");
+    } else {
+        fileCount.textContent = "Nenhum arquivo selecionado.";
+    }
+}
+
+function getCurrentTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
+
+function collectActiveFunctions() {
+    activeFunctions = [];
+    const currentTime = getCurrentTime();
+    
+    if (document.getElementById('precisao').checked) 
+        activeFunctions.push(`[ ${currentTime} ] - PRECISÃO - ATIVADO`);
+    if (document.getElementById('aimb').checked) 
+        activeFunctions.push(`[ ${currentTime} ] - AIMBOT ATIVADO`);
+    if (document.getElementById('forca').checked) 
+        activeFunctions.push(`[ ${currentTime} ] - 120 FPS - ATIVADO`);
+    if (document.getElementById('norecoil').checked) 
+        activeFunctions.push(`[ ${currentTime} ] - NO RECOIL- ATIVADO`);
+    
+    if (document.getElementById('fps120').checked) 
+        activeFunctions.push(`[ ${currentTime} ] - 120 FPS`);
+    if (document.getElementById('norecoil2').checked) 
+        activeFunctions.push(`[ ${currentTime} ] - NO RECOIL 95%`);
+    
+    const fov1Value = document.getElementById('fov1').value;
+    if (fov1Value > 0) 
+        activeFunctions.push(`[ ${currentTime} ] - FOV DE MIRA: ${fov1Value}`);
+    
+    const fov2Value = document.getElementById('fov2').value;
+    if (fov2Value > 0) 
+        activeFunctions.push(`[ ${currentTime} ] - TAMANHO DO FOV: ${fov2Value}`);
+    
+    activeFunctions.push(`[ ${currentTime} ] - BYPASS 100%`);
+    activeFunctions.push(`[ ${currentTime} ] - ANTIDETECTION`);
+    activeFunctions.push(`[ ${currentTime} ] - antiban`);
+    
+    return activeFunctions;
+}
+
+function displayFunctionsSequentially() {
+    functionsList.innerHTML = '';
+    
+    if (activeFunctions.length === 0) {
+        const item = document.createElement('div');
+        item.className = 'function-item';
+        item.textContent = '[ --:-- ] - Nenhuma função ativada';
+        item.style.opacity = '1';
+        item.style.transform = 'translateX(0)';
+        functionsList.appendChild(item);
+        return;
+    }
+    
+    let currentIndex = 0;
+    
+    function showNextFunction() {
+        if (currentIndex >= activeFunctions.length) return;
+        
+        const func = activeFunctions[currentIndex];
+        const item = document.createElement('div');
+        item.className = 'function-item';
+        item.textContent = func;
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(-10px)';
+        functionsList.appendChild(item);
+        
+        setTimeout(() => {
+            item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            item.style.opacity = '1';
+            item.style.transform = 'translateX(0)';
+        }, 50);
+        
+        functionsList.scrollTop = functionsList.scrollHeight;
+        currentIndex++;
+        
+        if (currentIndex < activeFunctions.length) {
+            setTimeout(showNextFunction, 1000);
+        }
+    }
+    
+    showNextFunction();
+}
+
+function makeFunctionsGreen() {
+    const items = functionsList.querySelectorAll('.function-item');
+    items.forEach(item => {
+        item.classList.add('completed');
+    });
+}
+
+function startInjection() {
+    collectActiveFunctions();
+    
+    injectBtn.disabled = true;
+    injectBtn.textContent = 'INJETANDO...';
+    
+    injectionStatus.classList.remove('active');
+    statusIndicator.style.background = '#ff3b3b';
+    statusTitle.textContent = 'INICIANDO INJEÇÃO...';
+    statusTitle.style.color = '#ff3b3b';
+    statusDesc.textContent = 'Iniciando processo de injeção...';
+    progressBar.style.width = '0%';
+    progressBar.style.background = '#ff3b3b';
+    
+    functionsList.innerHTML = '';
+    
+    const timeForAllFunctions = activeFunctions.length * 1200;
+    
+    setTimeout(() => {
+        displayFunctionsSequentially();
+    }, 500);
+    
+    let progress = 0;
+    const baseProgress = 40;
+    
+    const steps = [
+        {progress: 10, message: "Inicializando sistema...", delay: 1200},
+        {progress: 20, message: "Coletando configurações...", delay: 1800},
+        {progress: baseProgress, message: "Ativando funções...", delay: timeForAllFunctions},
+        {progress: 60, message: "Aplicando configurações...", delay: 2200},
+        {progress: 75, message: "Ativando antiban...", delay: 1900},
+        {progress: 85, message: "Injetando scripts...", delay: 2500},
+        {progress: 95, message: "Finalizando...", delay: 1600},
+        {progress: 100, message: "Injeção concluída!", delay: 1000}
+    ];
+    
+    let totalDelay = 0;
+    steps.forEach((step) => {
+        setTimeout(() => {
+            progress = step.progress;
+            progressBar.style.width = progress + '%';
+            statusDesc.textContent = step.message;
+            
+            if (progress === 100) {
+                setTimeout(() => {
+                    injectionStatus.classList.add('active');
+                    statusIndicator.style.background = '#32d74b';
+                    statusTitle.textContent = 'INJEÇÃO CONCLUÍDA!';
+                    statusTitle.style.color = '#32d74b';
+                    statusDesc.textContent = 'Abrindo Free Fire...';
+                    progressBar.style.background = '#32d74b';
+                    
+                    makeFunctionsGreen();
+                    showToast('Injeção 100% concluída!', 'success');
+                    
+                    setTimeout(() => {
+                        openFreeFireDirectly();
+                        
+                        setTimeout(() => {
+                            injectBtn.disabled = false;
+                            injectBtn.textContent = 'INICIAR INJEÇÃO';
+                        }, 3000);
+                    }, 1500);
+                }, 800);
+            }
+        }, totalDelay);
+        totalDelay += step.delay;
+    });
+}
+
+const style = document.createElement('style');
+style.textContent = `
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+`;
+document.head.appendChild(style);
+</script>
+
+</div>
+<!-- FIM DO SEU PAINEL -->
+
 </body>
 </html>
